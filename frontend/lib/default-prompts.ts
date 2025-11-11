@@ -8,26 +8,26 @@ export interface DefaultPrompt {
 export const defaultPrompts: DefaultPrompt[] = [
   {
     id: "1",
-    title: "Aircraft maintenance procedures",
-    prompt: "What are the key maintenance procedures for aircraft ground support equipment?",
-    category: "Maintenance",
+    title: "TT1200A Temperature Range",
+    prompt: "What is the temperature range of the Barfield TT1200A?",
+    category: "Equipment",
   },
   {
     id: "2",
-    title: "Safety protocols",
-    prompt: "What safety protocols should be followed when operating Barfield test equipment?",
-    category: "Safety",
+    title: "Transformer BLEU Score",
+    prompt: "What BLEU score did the Transformer achieve on WMT 2014?",
+    category: "AI/ML",
   },
   {
     id: "3",
-    title: "Troubleshooting guides",
-    prompt: "How do I troubleshoot common issues with pressure testing equipment?",
-    category: "Troubleshooting",
+    title: "Air France Fleet Size",
+    prompt: "How many aircraft does Air France have in its fleet?",
+    category: "Aviation",
   },
   {
     id: "4",
-    title: "Equipment specifications",
-    prompt: "What are the technical specifications for Barfield portable test equipment?",
-    category: "Technical",
+    title: "First Airline Flight",
+    prompt: "When was the first scheduled airline flight conducted?",
+    category: "History",
   },
 ];

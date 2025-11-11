@@ -45,39 +45,35 @@ resource "aws_apprunner_service" "bert-llm-chat-app-backend" {
   service_name = "${var.project_name}-backend-${var.environment}"
 
   source_configuration {
-
-    auto_deployments_enabled = true
+    auto_deployments_enabled = false
 
     authentication_configuration {
-      connection_arn = var.github_connection_arn
+      access_role_arn = aws_iam_role.apprunner_ecr_access_role.arn
     }
 
-    code_repository {
-      source_directory = "/backend"
+    image_repository {
+      image_identifier      = "${aws_ecr_repository.backend.repository_url}:latest"
+      image_repository_type = "ECR"
 
-      repository_url = var.github_repository_url
+      image_configuration {
+        port = "8080"
 
-      source_code_version {
-        type  = "BRANCH"
-        value = var.github_branch_name
-      }
+        # Non-sensitive environment variables
+        runtime_environment_variables = {
+          GROQ_MODEL            = var.groq_model
+          GROQ_TEMPERATURE      = var.groq_temperature
+          GROQ_MAX_TOKENS       = var.groq_max_tokens
+          FAISS_INDEX_DIR       = "/app/faiss_index"
+          EMBEDDING_MODEL       = var.embedding_model
+          K_NEIGHBORS           = var.k_neighbors
+          HOST                  = "0.0.0.0"
+          PORT                  = "8080"
+        }
 
-      code_configuration {
-        configuration_source = "REPOSITORY" # Uses apprunner.yaml from the repository
-
-        code_configuration_values {
-          runtime = "PYTHON_3"
-
-          # Non-sensitive environment variables (plain text)
-          runtime_environment_variables = {
-            APP_PORT    = "8080"
-            ENVIRONMENT = var.environment
-          }
-
-          # Sensitive data stored in AWS Secrets Manager (referenced by ARN)
-          runtime_environment_secrets = {
-            GROQ_API_KEY = aws_secretsmanager_secret.secrets["groq_api_key"].arn
-          }
+        # Sensitive environment variables from Secrets Manager
+        runtime_environment_secrets = {
+          GROQ_API_KEY    = aws_secretsmanager_secret.secrets["groq_api_key"].arn
+          ALLOWED_ORIGINS = aws_secretsmanager_secret.secrets["allowed_origins"].arn
         }
       }
     }

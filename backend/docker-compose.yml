@@ -1,0 +1,45 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bert-llm-chat-backend
+    ports:
+      - "8080:8080"
+    environment:
+      # API Configuration
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - GROQ_MODEL=${GROQ_MODEL:-llama-3.3-70b-versatile}
+      - GROQ_TEMPERATURE=${GROQ_TEMPERATURE:-0.7}
+      - GROQ_MAX_TOKENS=${GROQ_MAX_TOKENS:-1024}
+
+      # CORS Configuration
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:3000}
+
+      # Server Configuration
+      - HOST=0.0.0.0
+      - PORT=8080
+
+      # FAISS Configuration
+      - FAISS_INDEX_DIR=/app/faiss_index
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-sentence-transformers/all-MiniLM-L6-v2}
+      - K_NEIGHBORS=${K_NEIGHBORS:-5}
+    volumes:
+      # Mount faiss_index for persistence
+      - ./faiss_index:/app/faiss_index:rw
+      # Mount code for hot reload in development
+      - ./app:/app/app:ro
+      - ./main.py:/app/main.py:ro
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')",
+        ]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 40s

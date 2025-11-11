@@ -31,30 +31,45 @@ variable "groq_api_key" {
 }
 
 # App Runner Configuration
-variable "github_connection_arn" {
-  description = "ARN of the GitHub connection created in AWS Console"
-  type        = string
-}
-
-variable "github_repository_url" {
-  description = "GitHub repository URL (e.g., https://github.com/username/repo)"
-  type        = string
-}
-
-variable "github_branch_name" {
-  description = "GitHub branch name to deploy"
-  type        = string
-  default     = "main"
-}
-
 variable "app_runner_cpu" {
   description = "CPU units for App Runner instance (256, 512, 1024, 2048, 4096)"
   type        = string
-  default     = "256"
+  default     = "1024"
 }
 
 variable "app_runner_memory" {
   description = "Memory for App Runner instance (512, 1024, 2048, 3072, 4096, 6144, 8192, 10240, 12288)"
   type        = string
-  default     = "512"
+  default     = "2048"
+}
+
+# Application Configuration
+variable "groq_model" {
+  description = "Groq model to use"
+  type        = string
+  default     = "llama-3.3-70b-versatile"
+}
+
+variable "groq_temperature" {
+  description = "Temperature for Groq model"
+  type        = string
+  default     = "0.7"
+}
+
+variable "groq_max_tokens" {
+  description = "Max tokens for Groq model"
+  type        = string
+  default     = "1024"
+}
+
+variable "embedding_model" {
+  description = "Sentence transformer model for embeddings"
+  type        = string
+  default     = "sentence-transformers/all-MiniLM-L6-v2"
+}
+
+variable "k_neighbors" {
+  description = "Number of nearest neighbors for FAISS search"
+  type        = string
+  default     = "5"
 }

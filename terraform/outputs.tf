@@ -28,3 +28,19 @@ output "app_runner_service_status" {
   description = "Status of the App Runner service"
   value       = aws_apprunner_service.bert-llm-chat-app-backend.status
 }
+
+# ECR Repository Outputs
+output "ecr_repository_url" {
+  description = "URL of the ECR repository"
+  value       = aws_ecr_repository.backend.repository_url
+}
+
+output "ecr_repository_name" {
+  description = "Name of the ECR repository"
+  value       = aws_ecr_repository.backend.name
+}
+
+output "ecr_repository_arn" {
+  description = "ARN of the ECR repository"
+  value       = aws_ecr_repository.backend.arn
+}
