@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { MessageSquare, Github } from "lucide-react";
+import { Github, PlaneTakeoff } from "lucide-react";
 
 export default function Home() {
   return (
@@ -26,9 +26,9 @@ export default function Home() {
             Ask Barfield AI
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl leading-relaxed">
-            Your intelligent aviation document assistant powered by advanced RAG
-            technology. Access technical documentation and get instant answers
-            about aircraft maintenance equipment.
+            Your AI assistant powered by BERT, LLaMA and RAG technology, hosted
+            on AWS App Runner with a Docker image in an Elastic Container
+            Registry.
           </p>
           <p className="text-sm text-muted-foreground italic">
             Powered by Mohamed Tahiri, for Barfield Inc. (Air France)
@@ -52,7 +52,7 @@ export default function Home() {
           </Link>
           <Link href="/ask">
             <Button size="lg" className="text-lg px-8 py-6 h-auto">
-              <MessageSquare className="mr-2 h-5 w-5" />
+              <PlaneTakeoff className="mr-2 h-5 w-5" />
               Start Chatting
             </Button>
           </Link>

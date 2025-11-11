@@ -100,14 +100,16 @@ jobs:
                 \"ImageConfiguration\": {
                   \"Port\": \"8080\",
                   \"RuntimeEnvironmentVariables\": {
-                    \"GROQ_API_KEY\": \"${{ secrets.GROQ_API_KEY }}\",
                     \"GROQ_MODEL\": \"llama-3.3-70b-versatile\",
                     \"GROQ_TEMPERATURE\": \"0.7\",
                     \"GROQ_MAX_TOKENS\": \"1024\",
-                    \"ALLOWED_ORIGINS\": \"${{ secrets.ALLOWED_ORIGINS }}\",
                     \"FAISS_INDEX_DIR\": \"/app/faiss_index\",
                     \"EMBEDDING_MODEL\": \"sentence-transformers/all-MiniLM-L6-v2\",
                     \"K_NEIGHBORS\": \"5\"
+                  },
+                  \"RuntimeEnvironmentSecrets\": {
+                    \"GROQ_API_KEY\": \"${{ secrets.GROQ_API_KEY }}\",
+                    \"ALLOWED_ORIGINS\": \"${{ secrets.ALLOWED_ORIGINS }}\"
                   }
                 }
               },
