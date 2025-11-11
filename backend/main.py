@@ -1,7 +1,6 @@
-from fastapi import FastAPI
+"""
+Application entry point for uvicorn
+"""
+from app.main import app
 
-app = FastAPI()
-
-@app.get("/health")
-def health_check():
-    return {"status": "ok"}
+__all__ = ["app"]

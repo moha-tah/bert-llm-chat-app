@@ -1,14 +1,15 @@
 [tool.poetry]
 name = "bert-llm-chat-backend"
 version = "0.1.0"
-description = "Backend FastAPI minimal"
+description = "FastAPI Backend"
 authors = []
 package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.11"
-fastapi = "0.103.2"
-uvicorn = "0.22.0"
+python = ">=3.11,<3.15"
+pydantic-settings = "^2.12.0"
+faiss-cpu = "^1.12.0"
+sentence-transformers = "^5.1.2"
 
 [build-system]
 requires = ["poetry-core"]
