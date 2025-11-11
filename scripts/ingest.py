@@ -11,7 +11,7 @@ from typing import List, Dict
 
 from dotenv import load_dotenv
 from pypdf import PdfReader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
@@ -23,7 +23,9 @@ load_dotenv()
 SCRIPT_DIR = Path(__file__).parent
 SOURCE_PDF_DIR = SCRIPT_DIR / os.getenv("SOURCE_PDF_DIR", "./source_pdfs")
 OUTPUT_DIR = SCRIPT_DIR / os.getenv("OUTPUT_DIR", "../backend/faiss_index")
-EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
+EMBEDDING_MODEL_NAME = os.getenv(
+    "EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2"
+)
 CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "1000"))
 CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "200"))
 
@@ -51,11 +53,13 @@ def split_text_into_chunks(text: str, source_file: str) -> List[Dict[str, str]]:
     # Create chunk objects with metadata
     chunk_objects = []
     for i, chunk_text in enumerate(chunks):
-        chunk_objects.append({
-            "text": chunk_text,
-            "source": source_file,
-            "chunk_id": i,
-        })
+        chunk_objects.append(
+            {
+                "text": chunk_text,
+                "source": source_file,
+                "chunk_id": i,
+            }
+        )
 
     print(f"  - Created {len(chunk_objects)} chunks")
     return chunk_objects
@@ -94,13 +98,15 @@ def create_faiss_index(chunks: List[Dict[str, str]]) -> tuple:
     embeddings = model.encode(texts, show_progress_bar=True)
 
     # Convert to numpy array and normalize
-    embeddings = np.array(embeddings).astype('float32')
+    embeddings = np.array(embeddings).astype("float32")
     faiss.normalize_L2(embeddings)
 
     # Create FAISS index
     print("Building FAISS index...")
     dimension = embeddings.shape[1]
-    index = faiss.IndexFlatIP(dimension)  # Inner product (cosine similarity after normalization)
+    index = faiss.IndexFlatIP(
+        dimension
+    )  # Inner product (cosine similarity after normalization)
     index.add(embeddings)
 
     print(f"  - Index dimension: {dimension}")
@@ -121,7 +127,7 @@ def save_index_and_metadata(index, chunks: List[Dict[str, str]]):
 
     # Save metadata
     metadata_path = OUTPUT_DIR / "index.json"
-    with open(metadata_path, 'w', encoding='utf-8') as f:
+    with open(metadata_path, "w", encoding="utf-8") as f:
         json.dump(chunks, f, ensure_ascii=False, indent=2)
     print(f"Saved metadata to: {metadata_path}")
 
