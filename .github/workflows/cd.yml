@@ -93,7 +93,6 @@ jobs:
           # Update App Runner service
           aws apprunner start-deployment \
             --service-arn ${{ secrets.APP_RUNNER_SERVICE_ARN }} \
-            --image-repository "ImageIdentifier=${IMAGE_URI},ImageRepositoryType=ECR" \
             --region ${{ env.AWS_REGION }}
 
           echo "Deployment initiated successfully"
