@@ -1,2 +1,9 @@
 # Environment Variables
 .env
+
+# Python
+__pycache__/
+.venv/
+
+# Source PDFs (keep these local, only FAISS index is versioned)
+source_pdfs/*.pdf
