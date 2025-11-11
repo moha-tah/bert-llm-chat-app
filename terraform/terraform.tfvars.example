@@ -5,6 +5,9 @@ aws_region = "us-east-1"
 project_name = "bert-llm-chat-app"
 environment  = "prod"
 
+# Allowed Origins Configuration
+allowed_origins = "http://localhost:3000"
+
 # GitHub Configuration
 github_connection_arn = "arn:aws:apprunner:us-east-1:ACCOUNT_ID:connection/CONNECTION_NAME/CONNECTION_ID"
 github_repository_url = "https://github.com/YOUR_USERNAME/YOUR_REPO"
@@ -14,5 +17,7 @@ github_branch_name    = "main"
 app_runner_cpu    = "1024"  # 256, 512, 1024, 2048, 4096
 app_runner_memory = "2048"  # 512, 1024, 2048, 3072, 4096, 6144, 8192, 10240, 12288
 
-# Groq API Key
-groq_api_key = "groq-api-key"
+# Secrets (stored securely in AWS Secrets Manager)
+# Add more secrets here as needed following the same pattern
+groq_api_key = "your-groq-api-key-here"
+# example_secret = "your-secret-value-here"

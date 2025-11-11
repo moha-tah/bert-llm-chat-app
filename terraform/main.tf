@@ -68,10 +68,15 @@ resource "aws_apprunner_service" "bert-llm-chat-app-backend" {
         code_configuration_values {
           runtime = "PYTHON_3"
 
+          # Non-sensitive environment variables (plain text)
           runtime_environment_variables = {
-            GROQ_API_KEY = var.groq_api_key
-            APP_PORT     = "8080"
-            ENVIRONMENT  = var.environment
+            APP_PORT    = "8080"
+            ENVIRONMENT = var.environment
+          }
+
+          # Sensitive data stored in AWS Secrets Manager (referenced by ARN)
+          runtime_environment_secrets = {
+            GROQ_API_KEY = aws_secretsmanager_secret.secrets["groq_api_key"].arn
           }
         }
       }

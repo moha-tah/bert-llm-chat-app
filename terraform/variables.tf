@@ -18,6 +18,12 @@ variable "environment" {
   default     = "prod"
 }
 
+variable "allowed_origins" {
+  description = "Allowed origins for CORS"
+  type        = string
+  default     = "http://localhost:3000"
+}
+
 variable "groq_api_key" {
   description = "Groq API key for LLM access"
   type        = string

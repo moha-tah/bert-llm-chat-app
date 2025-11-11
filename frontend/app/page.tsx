@@ -6,7 +6,7 @@ import { MessageSquare, Github } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background via-background to-secondary/20">
+    <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-background via-background to-secondary/20">
       <div className="absolute top-4 right-4">
         <ThemeToggle />
       </div>
