@@ -27,7 +27,7 @@ Deployment will be fully automated via `git push`.
 ## Production Principles
 
 - **Secrets Management**: `.env` files locally, environment variables in production (managed by App Runner / Vercel)
-- **Remote Terraform State**: `.tfstate` stored in S3 backend with DynamoDB locking
+- **Remote Terraform State**: `.tfstate` stored in local state file
 - **Monorepo Structure**: Clean organization (`backend/`, `frontend/`, `scripts/`)
 
 ## Project Plan - Step by Step
@@ -39,6 +39,7 @@ Deployment will be fully automated via `git push`.
 1. Initialize a Git repository (e.g., on GitHub)
 
 2. Create the monorepo structure:
+
    ```
    /
    ├── backend/              # FastAPI
@@ -60,32 +61,32 @@ Deployment will be fully automated via `git push`.
 
 3. Create `.env.example` files in each folder
 
-4. Update the root `.gitignore` to ignore source PDF files, but DO NOT ignore the `backend/faiss_index/` folder
+4. DO NOT ignore the `backend/faiss_index/` folder
 
 **Validation (Manual Tests):**
 
 - Clone the repository and verify the folder structure is correct
 
-### Phase 1: Infrastructure (Terraform) - S3 Backend for State
+### Phase 1: Infrastructure (Terraform) - Local State Only
+
+**Note:** This project will use only a local `.tfstate` file. There is no need to configure a remote backend (e.g., S3/DynamoDB).
 
 **Actions:**
 
-1. **Terraform**: Create `terraform/backend_s3/` to define the state backend resources:
-   - A private S3 bucket (`aws_s3_bucket`) with versioning enabled
-   - A DynamoDB table (`aws_dynamodb_table`) for state locking
-
-2. **Terraform**: Create `terraform/main.tf` and configure the `terraform { backend "s3" {...} }` block to point to the resources above
+1. **Terraform**: Create `terraform/main.tf` and define your infrastructure resources as needed.
+2. Terraform will save state in `terraform/terraform.tfstate` by default.
 
 **Validation (Manual Tests):**
 
-- Run `terraform init` (after manually creating the bucket/table or via an initial local apply)
-- Terraform confirms the use of the S3 backend
+- Run `terraform init`
+- Verify that `terraform/terraform.tfstate` is created locally
 
 ### Phase 2: AWS Infrastructure Provisioning (Terraform)
 
 **Actions:**
 
 1. **AWS Console (One-time setup)**:
+
    - Go to AWS App Runner > Connections and create a new connection to your GitHub repository
    - Note: Terraform cannot create the connection, but it can use it
    - Save the ARN of this connection
@@ -120,6 +121,7 @@ Deployment will be fully automated via `git push`.
 1. Create `scripts/ingest.py`
 
 2. The script must:
+
    - Read from `scripts/source_pdfs/` folder (where manuals are placed)
    - Load text content (e.g., using `pypdf`)
    - Split text into chunks (e.g., using `RecursiveCharacterTextSplitter`)
@@ -143,14 +145,17 @@ Deployment will be fully automated via `git push`.
 1. Initialize a FastAPI project in `backend/`
 
 2. Create a multi-stage `Dockerfile`:
+
    - `COPY requirements.txt .` and `pip install ...`
    - `COPY . /app` (This will include the `faiss_index/` folder in the build context)
 
 3. **app/main.py**:
+
    - **On startup**: Load the FAISS index (`faiss.read_index(...)`) and chunks (`json.load(...)`) from the `faiss_index/` folder into memory
    - Create a `/health` endpoint that returns `{"status": "ok"}` for App Runner health checks
 
 4. **app/api/endpoints/chat.py**:
+
    - Create a `POST /ask-stream` endpoint
    - The endpoint must:
      - Vectorize the user question
@@ -166,7 +171,7 @@ Deployment will be fully automated via `git push`.
 - Successfully `docker build` the image without errors
 - Successfully `docker run` the image locally (with a `.env` file)
 - API starts and logs "FAISS index loaded"
-- Test `http://localhost:8000/ask-stream` from Postman/Swagger and receive a streamed response
+- Test `http://localhost:8080/ask-stream` from Postman/Swagger and receive a streamed response
 
 ### Phase 5: Frontend Development (Next.js)
 
@@ -182,7 +187,7 @@ Deployment will be fully automated via `git push`.
 
 - Run `npm run dev`
 - Ensure the API (Phase 4) is running locally
-- Configure the frontend to connect to `http://localhost:8000`
+- Configure the frontend to connect to `http://localhost:8080`
 - Ask a question and verify the response displays word by word (streaming)
 
 ### Phase 6: CI/CD Deployment and E2E Testing
@@ -190,6 +195,7 @@ Deployment will be fully automated via `git push`.
 **Actions:**
 
 1. **Backend Deployment**:
+
    - `git add .`
    - `git commit -m "feat: initial MRO copilot"`
    - `git push`

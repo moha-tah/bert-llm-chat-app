@@ -1,0 +1,18 @@
+# AWS Configuration
+aws_region = "us-east-1"
+
+# Project Configuration
+project_name = "bert-llm-chat-app"
+environment  = "prod"
+
+# GitHub Configuration
+github_connection_arn = "arn:aws:apprunner:us-east-1:ACCOUNT_ID:connection/CONNECTION_NAME/CONNECTION_ID"
+github_repository_url = "https://github.com/YOUR_USERNAME/YOUR_REPO"
+github_branch_name    = "main"
+
+# App Runner Instance Configuration
+app_runner_cpu    = "1024"  # 256, 512, 1024, 2048, 4096
+app_runner_memory = "2048"  # 512, 1024, 2048, 3072, 4096, 6144, 8192, 10240, 12288
+
+# Groq API Key
+groq_api_key = "groq-api-key"
