@@ -7,10 +7,11 @@ This directory contains the scripts required for processing and ingesting data f
 The `ingest.py` script automates the data preparation pipeline for the language model. Here are the key steps involved:
 
 1.  **Text Extraction**: Reads all PDF files located in the `source_pdfs` directory.
-2.  **Chunking**: Splits the extracted text into smaller, manageable segments (chunks) using a recursive strategy.
-3.  **Embedding Generation**: Uses a `sentence-transformers` model to convert each text chunk into a numerical vector (embedding).
-4.  **FAISS Indexing**: Creates a FAISS (Facebook AI Similarity Search) index from the embeddings. This index allows for the rapid retrieval of text chunks that are most relevant to a given query.
-5.  **Saving**: Saves the FAISS index (`index.faiss`) and the associated metadata (`index.json`) to an output directory, ready to be used by the application's backend.
+2.  **PDF Distribution**: Copies all processed PDFs to the `frontend/public/files` directory to make them accessible from the frontend application.
+3.  **Chunking**: Splits the extracted text into smaller, manageable segments (chunks) using a recursive strategy.
+4.  **Embedding Generation**: Uses a `sentence-transformers` model to convert each text chunk into a numerical vector (embedding).
+5.  **FAISS Indexing**: Creates a FAISS (Facebook AI Similarity Search) index from the embeddings. This index allows for the rapid retrieval of text chunks that are most relevant to a given query.
+6.  **Saving**: Saves the FAISS index (`index.faiss`) and the associated metadata (`index.json`) to an output directory, ready to be used by the application's backend.
 
 ## Prerequisites
 
@@ -49,6 +50,7 @@ Follow these steps to set up the development environment:
 
     - `SOURCE_PDF_DIR`: Path to the directory containing the PDFs (default: `./source_pdfs`).
     - `OUTPUT_DIR`: Path to the directory where the index will be saved (default: `../backend/faiss_index`).
+    - `PUBLIC_PDF_DIR`: Path to the public directory where PDFs will be copied for frontend access (default: `../frontend/public/files`).
     - `EMBEDDING_MODEL`: Name of the `sentence-transformers` model to use (default: `sentence-transformers/all-MiniLM-L6-v2`).
     - `CHUNK_SIZE`: Maximum size of the text chunks (default: `1000`).
     - `CHUNK_OVERLAP`: Number of overlapping characters between chunks (default: `200`).
@@ -58,8 +60,11 @@ Follow these steps to set up the development environment:
     ```
     SOURCE_PDF_DIR=./my_pdfs
     OUTPUT_DIR=../my_backend/index
+    PUBLIC_PDF_DIR=../frontend/public/files
     EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
     ```
+
+    You can also use the provided `env.example` file as a template by copying it to `.env`.
 
 ## Usage
 

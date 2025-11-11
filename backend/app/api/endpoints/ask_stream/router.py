@@ -51,12 +51,16 @@ async def ask_stream(
             else settings.GROQ_TEMPERATURE
         )
 
-        # Return streaming response
+        # Return streaming response with SSE media type
         return StreamingResponse(
             stream_groq_response(
                 request.question, context_chunks, settings.GROQ_MODEL, temperature
             ),
-            media_type="text/plain",
+            media_type="text/event-stream",
+            headers={
+                "Cache-Control": "no-cache",
+                "Connection": "keep-alive",
+            },
         )
 
     except HTTPException:

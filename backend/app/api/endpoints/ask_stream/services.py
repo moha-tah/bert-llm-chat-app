@@ -53,14 +53,14 @@ async def stream_groq_response(
     question: str, context_chunks: list[dict], model: str, temperature: float
 ):
     """
-    Generator function that streams response from Groq API
+    Generator function that streams response from Groq API in SSE format
     Args:
         question: User question
         context_chunks: Retrieved context chunks
         model: Groq model to use
         temperature: Temperature for response generation
     Yields:
-        Chunks of text from streaming response
+        Server-Sent Events formatted chunks
     """
     try:
         # Build prompt with context
@@ -78,11 +78,20 @@ async def stream_groq_response(
             stream=True,
         )
 
-        # Stream response chunks
+        # Stream response chunks in SSE format
         for chunk in stream:
             if chunk.choices[0].delta.content:
-                yield chunk.choices[0].delta.content
+                content = chunk.choices[0].delta.content
+                # Format as Server-Sent Event with JSON payload
+                import json
+                event_data = json.dumps({"content": content})
+                yield f"data: {event_data}\n\n"
+
+        # Send completion event
+        yield "data: [DONE]\n\n"
 
     except Exception as e:
         logger.error(f"Error during Groq streaming: {e}")
-        yield f"\n\n[Error: {str(e)}]"
+        import json
+        error_data = json.dumps({"error": str(e)})
+        yield f"data: {error_data}\n\n"

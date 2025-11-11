@@ -37,7 +37,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
             : "bg-muted"
         )}
       >
-        <div className="whitespace-pre-wrap break-words">{message.content}</div>
+        <div className="whitespace-pre-wrap wrap-break-word">{message.content}</div>
       </div>
       {isUser && (
         <div className="flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-md border bg-background shadow-sm">

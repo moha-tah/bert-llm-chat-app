@@ -7,6 +7,7 @@ Reads PDFs, creates embeddings, and builds a FAISS index.
 import json
 import os
 import logging
+import shutil
 from pathlib import Path
 from typing import List, Dict
 
@@ -30,6 +31,7 @@ logging.basicConfig(
 SCRIPT_DIR = Path(__file__).parent
 SOURCE_PDF_DIR = SCRIPT_DIR / os.getenv("SOURCE_PDF_DIR", "./source_pdfs")
 OUTPUT_DIR = SCRIPT_DIR / os.getenv("OUTPUT_DIR", "../backend/faiss_index")
+PUBLIC_PDF_DIR = SCRIPT_DIR / os.getenv("PUBLIC_PDF_DIR", "../frontend/public/files")
 EMBEDDING_MODEL_NAME = os.getenv(
     "EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2"
 )
@@ -76,6 +78,18 @@ def split_text_into_chunks(text: str, source_file: str) -> Chunks:
     return chunk_objects
 
 
+def copy_pdfs_to_public(pdf_files: List[Path]):
+    """Copy PDF files to the public directory for frontend access."""
+    # Create public directory if it doesn't exist
+    PUBLIC_PDF_DIR.mkdir(parents=True, exist_ok=True)
+
+    logging.info(f"Copying PDFs to public directory: {PUBLIC_PDF_DIR}")
+    for pdf_path in pdf_files:
+        destination = PUBLIC_PDF_DIR / pdf_path.name
+        shutil.copy2(pdf_path, destination)
+        logging.info(f"  - Copied: {pdf_path.name}")
+
+
 def process_all_pdfs() -> Chunks:
     """Process all PDFs in the source directory."""
     pdf_files = list(SOURCE_PDF_DIR.glob("*.pdf"))
@@ -86,6 +100,9 @@ def process_all_pdfs() -> Chunks:
         return []
 
     logging.info(f"Found {len(pdf_files)} PDF file(s)")
+
+    # Copy PDFs to public directory
+    copy_pdfs_to_public(pdf_files)
 
     all_chunks = []
     for pdf_path in pdf_files:

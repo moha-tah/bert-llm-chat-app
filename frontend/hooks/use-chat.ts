@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { createParser } from "eventsource-parser";
 import type { Message } from "@/components/chat/chat-message";
 
 interface UseChatOptions {
@@ -31,7 +32,7 @@ export function useChat(options: UseChatOptions = {}) {
       setError(null);
 
       try {
-        const response = await fetch(`${apiUrl}/ask`, {
+        const response = await fetch(`${apiUrl}/ask-stream`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -62,6 +63,47 @@ export function useChat(options: UseChatOptions = {}) {
 
         let accumulatedContent = "";
 
+        const parser = createParser({
+          onEvent: (event) => {
+            const data = event.data;
+
+            if (data === "[DONE]") {
+              return;
+            }
+
+            try {
+              const parsed = JSON.parse(data);
+
+              // Handle different response formats
+              let contentChunk = "";
+              if (parsed.content) {
+                contentChunk = parsed.content;
+              } else if (parsed.choices?.[0]?.delta?.content) {
+                contentChunk = parsed.choices[0].delta.content;
+              } else if (parsed.token) {
+                contentChunk = parsed.token;
+              } else if (typeof parsed === "string") {
+                contentChunk = parsed;
+              }
+
+              if (contentChunk) {
+                accumulatedContent += contentChunk;
+
+                setMessages((prev) => {
+                  const newMessages = [...prev];
+                  const lastMessage = newMessages[newMessages.length - 1];
+                  if (lastMessage && lastMessage.role === "assistant") {
+                    lastMessage.content = accumulatedContent;
+                  }
+                  return newMessages;
+                });
+              }
+            } catch (e) {
+              console.error("Failed to parse streaming data:", e, "Data:", data);
+            }
+          },
+        });
+
         while (true) {
           const { done, value } = await reader.read();
 
@@ -70,36 +112,7 @@ export function useChat(options: UseChatOptions = {}) {
           }
 
           const chunk = decoder.decode(value, { stream: true });
-          const lines = chunk.split("\n");
-
-          for (const line of lines) {
-            if (line.startsWith("data: ")) {
-              const data = line.slice(6).trim();
-
-              if (data === "[DONE]") {
-                continue;
-              }
-
-              try {
-                const parsed = JSON.parse(data);
-                if (parsed.content) {
-                  accumulatedContent += parsed.content;
-
-                  setMessages((prev) => {
-                    const newMessages = [...prev];
-                    const lastMessage = newMessages[newMessages.length - 1];
-                    if (lastMessage && lastMessage.role === "assistant") {
-                      lastMessage.content = accumulatedContent;
-                    }
-                    return newMessages;
-                  });
-                }
-              } catch (e) {
-                // Skip invalid JSON
-                console.error("Failed to parse streaming data:", e);
-              }
-            }
-          }
+          parser.feed(chunk);
         }
 
         setIsLoading(false);
