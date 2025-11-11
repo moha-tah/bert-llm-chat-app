@@ -20,6 +20,7 @@ This project demonstrates a **modern AI-powered question-answering system** that
 The application allows users to ask questions about technical documents in natural language and receive intelligent, contextual answers in real-time. It leverages:
 
 - **Vector embeddings** to understand semantic meaning
+- **BERT-based embedding model** for efficient semantic search
 - **FAISS vector database** for efficient similarity search
 - **Large Language Models** (LLaMA 3.3 70B) for natural language generation
 - **Retrieval-Augmented Generation (RAG)** to ground responses in source documents
@@ -28,11 +29,17 @@ The application allows users to ask questions about technical documents in natur
 ### Key Features
 
 ✨ **Intelligent Document Understanding**: Converts documents into semantic vectors using transformer-based embeddings
-🔍 **Semantic Search**: FAISS-powered vector similarity search finds relevant context
+
+🔍 **Semantic Search**: BERT-based embedding model and FAISS-powered vector similarity search finds relevant context
+
 🤖 **LLM-Powered Responses**: LLaMA 3.3 generates accurate, context-aware answers
+
 ⚡ **Real-Time Streaming**: Server-Sent Events (SSE) for word-by-word response generation
+
 📚 **Source Attribution**: Cites specific document sections with relevance scores
+
 💬 **Conversational Context**: Maintains chat history for multi-turn conversations
+
 ☁️ **Cloud-Native**: Fully deployed on AWS with Infrastructure as Code
 
 ---
@@ -86,11 +93,13 @@ The application follows a modern three-tier architecture with AI/ML capabilities
 #### 🧠 AI/ML Layer
 
 - **Embedding Model**: `BAAI/bge-large-en-v1.5` via Sentence Transformers
+
   - 1024-dimensional dense vectors
   - Optimized for semantic similarity tasks
   - L2 normalization for cosine similarity via inner product
 
 - **Vector Database**: FAISS (Facebook AI Similarity Search)
+
   - `IndexFlatIP` (Inner Product) for exact search
   - Static index committed to repository (276 chunks)
   - Sub-millisecond search latency
@@ -134,22 +143,23 @@ The application follows a modern three-tier architecture with AI/ML capabilities
 
 ### Technical Decisions & Rationale
 
-| Component | Choice | Why? |
-|-----------|--------|------|
-| **Embedding** | BAAI/bge-large-en-v1.5 | Top performance on MTEB benchmark, excellent for retrieval tasks |
-| **Vector DB** | FAISS | Extremely fast, no external database needed, perfect for read-only RAG |
-| **LLM Provider** | Groq | Fastest inference available (300+ tokens/sec), native streaming support |
-| **LLM Model** | LLaMA 3.3 70B | High quality, large context window, excellent instruction following |
-| **Backend** | FastAPI | Async support, automatic OpenAPI docs, Python ML ecosystem |
-| **Frontend** | Next.js 16 | App Router, Server Components, excellent DX, TypeScript support |
-| **Hosting** | AWS App Runner | Managed service, auto-scaling, GitHub integration, cost-effective |
-| **IaC** | Terraform | Industry standard, reproducible, version-controlled infrastructure |
+| Component        | Choice                 | Why?                                                                    |
+| ---------------- | ---------------------- | ----------------------------------------------------------------------- |
+| **Embedding**    | BAAI/bge-large-en-v1.5 | Top performance on MTEB benchmark, excellent for retrieval tasks        |
+| **Vector DB**    | FAISS                  | Extremely fast, no external database needed, perfect for read-only RAG  |
+| **LLM Provider** | Groq                   | Fastest inference available (300+ tokens/sec), native streaming support |
+| **LLM Model**    | LLaMA 3.3 70B          | High quality, large context window, excellent instruction following     |
+| **Backend**      | FastAPI                | Async support, automatic OpenAPI docs, Python ML ecosystem              |
+| **Frontend**     | Next.js 16             | App Router, Server Components, excellent DX, TypeScript support         |
+| **Hosting**      | AWS App Runner         | Managed service, auto-scaling, GitHub integration, cost-effective       |
+| **IaC**          | Terraform              | Industry standard, reproducible, version-controlled infrastructure      |
 
 ---
 
 ## 🛠️ Technology Stack
 
 ### Backend Stack
+
 - **Python 3.11+** with Poetry dependency management
 - **FastAPI** + Uvicorn for high-performance async API
 - **FAISS** (`faiss-cpu`) for vector similarity search
@@ -160,6 +170,7 @@ The application follows a modern three-tier architecture with AI/ML capabilities
 - **Pydantic** for configuration and validation
 
 ### Frontend Stack
+
 - **Next.js 16.0** (App Router) with React 19
 - **TypeScript 5** for type safety
 - **Tailwind CSS 4** for styling
@@ -169,6 +180,7 @@ The application follows a modern three-tier architecture with AI/ML capabilities
 - **pnpm** for fast package management
 
 ### Infrastructure Stack
+
 - **Terraform** for Infrastructure as Code
 - **AWS App Runner** for backend hosting
 - **AWS Secrets Manager** for secure credential storage
@@ -177,6 +189,7 @@ The application follows a modern three-tier architecture with AI/ML capabilities
 - **GitHub Actions** for CI linting
 
 ### AI/ML Stack
+
 - **Embedding Model**: BAAI/bge-large-en-v1.5 (1024-dim)
 - **LLM**: LLaMA 3.3 70B Versatile (Groq)
 - **Vector Database**: FAISS IndexFlatIP
@@ -196,12 +209,14 @@ GitHub Push → App Runner Build Trigger → Poetry Install → Uvicorn Start �
 ```
 
 **Infrastructure Components:**
+
 - **App Runner Service**: Managed container with auto-scaling
 - **Secrets Manager**: Stores `GROQ_API_KEY` and `ALLOWED_ORIGINS`
 - **IAM Role**: Grants App Runner read access to secrets
 - **Health Endpoint**: `/health` returns FAISS index status
 
 **Configuration** (`backend/apprunner.yaml`):
+
 ```yaml
 runtime: python311
 build:
@@ -216,6 +231,7 @@ run:
 ```
 
 **Terraform Deployment:**
+
 ```bash
 cd terraform
 terraform init
@@ -232,6 +248,7 @@ GitHub Push → Vercel Build → Next.js Build → Deploy to CDN → Live
 ```
 
 **Configuration:**
+
 - Environment variable: `NEXT_PUBLIC_API_URL` → App Runner URL
 - Automatic HTTPS with Vercel SSL
 - Global CDN for fast worldwide access
@@ -276,30 +293,35 @@ GitHub Push → Vercel Build → Next.js Build → Deploy to CDN → Live
 ## 🎓 Key Technical Highlights
 
 ### 1. Advanced RAG Implementation
+
 - **Semantic chunking** with overlap for context preservation
 - **Vector normalization** for accurate cosine similarity
 - **Relevance scoring** returned with each retrieved chunk
 - **Context window optimization** with top-K selection
 
 ### 2. Real-Time Streaming
+
 - **Server-Sent Events (SSE)** for efficient streaming
 - **Token-by-token** generation with async generators
 - **Backpressure handling** in the streaming pipeline
 - **Error recovery** with graceful degradation
 
 ### 3. Production-Ready Features
+
 - **Health monitoring** for cloud service availability
 - **Secrets management** with AWS Secrets Manager
 - **CORS configuration** for secure frontend access
 - **Environment-based config** for multi-stage deployment
 
 ### 4. Cloud-Native Architecture
+
 - **Infrastructure as Code** with Terraform
 - **Auto-scaling** with AWS App Runner
 - **CI/CD automation** via GitHub integration
 - **Zero-downtime deployments** with health checks
 
 ### 5. Performance Optimizations
+
 - **Singleton pattern** for embedding model (loaded once)
 - **FAISS CPU optimization** for fast vector search
 - **Async/await** throughout the backend
@@ -310,6 +332,7 @@ GitHub Push → Vercel Build → Next.js Build → Deploy to CDN → Live
 ## 🔧 Quick Start
 
 ### Prerequisites
+
 - Python 3.11+
 - Node.js 18+ (with pnpm)
 - AWS Account + CLI configured
@@ -318,6 +341,7 @@ GitHub Push → Vercel Build → Next.js Build → Deploy to CDN → Live
 ### Local Development
 
 **Backend:**
+
 ```bash
 cd backend
 poetry install
@@ -325,6 +349,7 @@ poetry run uvicorn main:app --reload
 ```
 
 **Frontend:**
+
 ```bash
 cd frontend
 pnpm install
@@ -332,6 +357,7 @@ pnpm dev
 ```
 
 **Document Ingestion:**
+
 ```bash
 cd scripts
 poetry install
@@ -342,12 +368,14 @@ poetry run python ingest.py
 ### Environment Variables
 
 **Backend** (`.env`):
+
 ```env
 GROQ_API_KEY=your_groq_api_key
 ALLOWED_ORIGINS=http://localhost:3000
 ```
 
 **Frontend** (`.env.local`):
+
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:8080
 ```
