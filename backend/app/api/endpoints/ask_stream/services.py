@@ -42,7 +42,7 @@ Instructions:
 - If the context doesn't contain enough information to answer the question, say so clearly
 - If the question doesn't need any context, answer based on your knowledge
 - Be concise and accurate
-- Cite which document(s) you're referencing in your answer
+- Cite which document(s) you're referencing in your answer (at the end after jumping to the next line)
 
 Answer:"""
 

@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { FileText, ExternalLink } from "lucide-react"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { FileText, ExternalLink } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Source {
-  name: string
-  filename: string
+  name: string;
+  filename: string;
 }
 
 export function SourcesSidebar() {
-  const [sources, setSources] = React.useState<Source[]>([])
-  const [loading, setLoading] = React.useState(true)
+  const [sources, setSources] = React.useState<Source[]>([]);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     // Fetch list of PDF files from the public/files directory
@@ -20,18 +20,30 @@ export function SourcesSidebar() {
     // For now, we'll hardcode the known files
     const knownSources: Source[] = [
       {
+        name: "Air France Presentation",
+        filename: "air-france-presentation.pdf",
+      },
+      {
+        name: "Aeronautics Introduction",
+        filename: "aeronautics-introduction.pdf",
+      },
+      {
+        name: "Barfield TT1200A Specifications",
+        filename: "barfield-tt1200a.pdf",
+      },
+      {
         name: "Attention Is All You Need",
         filename: "attention-is-all-you-need.pdf",
       },
-    ]
+    ];
 
-    setSources(knownSources)
-    setLoading(false)
-  }, [])
+    setSources(knownSources);
+    setLoading(false);
+  }, []);
 
   const handleSourceClick = (filename: string) => {
-    window.open(`/files/${filename}`, "_blank", "noopener,noreferrer")
-  }
+    window.open(`/files/${filename}`, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <Card className="h-full">
@@ -43,9 +55,13 @@ export function SourcesSidebar() {
       </CardHeader>
       <CardContent className="space-y-2">
         {loading ? (
-          <div className="text-sm text-muted-foreground">Loading sources...</div>
+          <div className="text-sm text-muted-foreground">
+            Loading sources...
+          </div>
         ) : sources.length === 0 ? (
-          <div className="text-sm text-muted-foreground">No sources available</div>
+          <div className="text-sm text-muted-foreground">
+            No sources available
+          </div>
         ) : (
           sources.map((source) => (
             <button
@@ -65,5 +81,5 @@ export function SourcesSidebar() {
         )}
       </CardContent>
     </Card>
-  )
+  );
 }

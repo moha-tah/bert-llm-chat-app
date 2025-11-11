@@ -116,22 +116,3 @@ jobs:
             --region ${{ env.AWS_REGION }}
 
           echo "Deployment initiated successfully"
-
-      - name: Wait for deployment
-        run: |
-          echo "Waiting for App Runner service to be updated..."
-          aws apprunner wait service-updated \
-            --service-arn ${{ secrets.APP_RUNNER_SERVICE_ARN }} \
-            --region ${{ env.AWS_REGION }}
-
-          echo "Service updated successfully!"
-
-      - name: Get service URL
-        run: |
-          SERVICE_URL=$(aws apprunner describe-service \
-            --service-arn ${{ secrets.APP_RUNNER_SERVICE_ARN }} \
-            --region ${{ env.AWS_REGION }} \
-            --query 'Service.ServiceUrl' \
-            --output text)
-
-          echo "Service is now running at: https://$SERVICE_URL"
