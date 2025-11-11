@@ -2,15 +2,17 @@ version: 1.0
 runtime: python311
 build:
   commands:
-    pre-build:
-      - echo "Installing dependencies..."
-      - pip install --upgrade pip
     build:
-      - pip install -r requirements.txt
-    post-build:
-      - echo "Build completed successfully"
+      - echo "Build command..."
 
 run:
+  runtime-version: 3.11
+  pre-run:
+    - echo "Installing dependencies..."
+    - pip3 install poetry
+    - poetry config virtualenvs.create false
+    - poetry install --no-dev --no-interaction --no-ansi
+
   command: uvicorn main:app --host 0.0.0.0 --port 8080
   network:
     port: 8080
