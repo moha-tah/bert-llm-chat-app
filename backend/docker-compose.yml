@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: bert-llm-chat-backend
+    container_name: bert-llm-chat-app-backend
     ports:
       - "8080:8080"
     environment:

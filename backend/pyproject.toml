@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "bert-llm-chat-backend"
+name = "bert-llm-chat-app-backend"
 version = "0.1.0"
 description = "FastAPI Backend"
 authors = []

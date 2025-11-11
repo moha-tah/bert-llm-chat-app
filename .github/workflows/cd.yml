@@ -9,8 +9,8 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REPOSITORY: bert-llm-chat-backend
-  APP_RUNNER_SERVICE: bert-llm-chat-backend-service
+  ECR_REPOSITORY: bert-llm-chat-app-backend
+  APP_RUNNER_SERVICE: bert-llm-chat-app-backend-service
 
 jobs:
   build-and-deploy:

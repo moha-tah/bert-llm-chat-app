@@ -60,14 +60,14 @@ resource "aws_apprunner_service" "bert-llm-chat-app-backend" {
 
         # Non-sensitive environment variables
         runtime_environment_variables = {
-          GROQ_MODEL            = var.groq_model
-          GROQ_TEMPERATURE      = var.groq_temperature
-          GROQ_MAX_TOKENS       = var.groq_max_tokens
-          FAISS_INDEX_DIR       = "/app/faiss_index"
-          EMBEDDING_MODEL       = var.embedding_model
-          K_NEIGHBORS           = var.k_neighbors
-          HOST                  = "0.0.0.0"
-          PORT                  = "8080"
+          GROQ_MODEL       = var.groq_model
+          GROQ_TEMPERATURE = var.groq_temperature
+          GROQ_MAX_TOKENS  = var.groq_max_tokens
+          FAISS_INDEX_DIR  = "/app/faiss_index"
+          EMBEDDING_MODEL  = var.embedding_model
+          K_NEIGHBORS      = var.k_neighbors
+          HOST             = "0.0.0.0"
+          PORT             = "8080"
         }
 
         # Sensitive environment variables from Secrets Manager
