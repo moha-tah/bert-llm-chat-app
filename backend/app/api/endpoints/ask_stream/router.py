@@ -51,10 +51,19 @@ async def ask_stream(
             else settings.GROQ_TEMPERATURE
         )
 
+        # Convert history to dict format
+        history = (
+            [msg.model_dump() for msg in request.history] if request.history else []
+        )
+
         # Return streaming response with SSE media type
         return StreamingResponse(
             stream_groq_response(
-                request.question, context_chunks, settings.GROQ_MODEL, temperature
+                request.question,
+                context_chunks,
+                settings.GROQ_MODEL,
+                temperature,
+                history,
             ),
             media_type="text/event-stream",
             headers={

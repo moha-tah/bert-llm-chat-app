@@ -21,6 +21,12 @@ export function useChat(options: UseChatOptions = {}) {
     async (content: string) => {
       if (!content.trim()) return;
 
+      // Build history from existing messages BEFORE adding new message
+      const history = messages.map((msg) => ({
+        role: msg.role,
+        content: msg.content,
+      }));
+
       const userMessage: Message = {
         id: Date.now().toString(),
         role: "user",
@@ -39,6 +45,7 @@ export function useChat(options: UseChatOptions = {}) {
           },
           body: JSON.stringify({
             question: content.trim(),
+            history: history,
           }),
         });
 
@@ -99,7 +106,12 @@ export function useChat(options: UseChatOptions = {}) {
                 });
               }
             } catch (e) {
-              console.error("Failed to parse streaming data:", e, "Data:", data);
+              console.error(
+                "Failed to parse streaming data:",
+                e,
+                "Data:",
+                data
+              );
             }
           },
         });
@@ -125,7 +137,7 @@ export function useChat(options: UseChatOptions = {}) {
         setMessages((prev) => prev.slice(0, -1));
       }
     },
-    [apiUrl]
+    [apiUrl, messages]
   );
 
   const clearMessages = useCallback(() => {

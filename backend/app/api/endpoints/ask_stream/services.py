@@ -50,7 +50,11 @@ Answer:"""
 
 
 async def stream_groq_response(
-    question: str, context_chunks: list[dict], model: str, temperature: float
+    question: str,
+    context_chunks: list[dict],
+    model: str,
+    temperature: float,
+    history: list[dict] = None,
 ):
     """
     Generator function that streams response from Groq API in SSE format
@@ -59,6 +63,7 @@ async def stream_groq_response(
         context_chunks: Retrieved context chunks
         model: Groq model to use
         temperature: Temperature for response generation
+        history: Conversation history (list of messages)
     Yields:
         Server-Sent Events formatted chunks
     """
@@ -66,24 +71,39 @@ async def stream_groq_response(
         # Build prompt with context
         prompt = build_prompt(question, context_chunks)
 
-        logger.info(f"Prompt: {prompt}")
         logger.info(f"Calling Groq API with model: {model}")
+
+        # Build messages array with history
+        messages = []
+
+        # Add conversation history if provided
+        if history:
+            for msg in history:
+                messages.append(
+                    {"role": msg.get("role"), "content": msg.get("content")}
+                )
+
+        # Add current question with context
+        messages.append({"role": "user", "content": prompt})
+
+        logger.info(f"Messages count: {len(messages)}")
 
         # Call Groq API with streaming
         stream = groq_client.chat.completions.create(
             model=model,
-            messages=[{"role": "user", "content": prompt}],
+            messages=messages,
             temperature=temperature,
             max_tokens=settings.GROQ_MAX_TOKENS,
             stream=True,
         )
 
         # Stream response chunks in SSE format
+        import json
+
         for chunk in stream:
             if chunk.choices[0].delta.content:
                 content = chunk.choices[0].delta.content
                 # Format as Server-Sent Event with JSON payload
-                import json
                 event_data = json.dumps({"content": content})
                 yield f"data: {event_data}\n\n"
 
@@ -93,5 +113,6 @@ async def stream_groq_response(
     except Exception as e:
         logger.error(f"Error during Groq streaming: {e}")
         import json
+
         error_data = json.dumps({"error": str(e)})
         yield f"data: {error_data}\n\n"

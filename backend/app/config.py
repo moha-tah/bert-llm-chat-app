@@ -24,7 +24,7 @@ class Settings(BaseSettings):
 
     # FAISS Configuration
     FAISS_INDEX_DIR: str = "./faiss_index"
-    EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
+    EMBEDDING_MODEL: str = "BAAI/bge-large-en-v1.5"
     K_NEIGHBORS: int = 5
 
     model_config = SettingsConfigDict(

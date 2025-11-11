@@ -2,15 +2,16 @@
 
 import * as React from "react"
 import { ChatMessage, type Message } from "./chat-message"
+import { DefaultPrompts } from "./default-prompts"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { cn } from "@/lib/utils"
 
 interface ChatMessageListProps {
   messages: Message[]
   isLoading?: boolean
+  onPromptSelect?: (prompt: string) => void
 }
 
-export function ChatMessageList({ messages, isLoading }: ChatMessageListProps) {
+export function ChatMessageList({ messages, isLoading, onPromptSelect }: ChatMessageListProps) {
   const scrollRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
@@ -26,12 +27,16 @@ export function ChatMessageList({ messages, isLoading }: ChatMessageListProps) {
     >
       <div className="flex flex-col">
         {messages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center p-8">
-            <h2 className="text-2xl font-semibold mb-2">Start a conversation</h2>
-            <p className="text-muted-foreground">
-              Ask me anything about your documents
-            </p>
-          </div>
+          onPromptSelect ? (
+            <DefaultPrompts onPromptSelect={onPromptSelect} />
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center p-8">
+              <h2 className="text-2xl font-semibold mb-2">Start a conversation</h2>
+              <p className="text-muted-foreground">
+                Ask me anything about your documents
+              </p>
+            </div>
+          )
         ) : (
           <>
             {messages.map((message) => (

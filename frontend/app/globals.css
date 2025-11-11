@@ -1,25 +1,59 @@
 @import "tailwindcss";
 
+/* Air France Excellence in Motion Fonts */
+@font-face {
+  font-family: 'Excellence in Motion Display';
+  src: url('/fonts/ExcellenceInMotionDisplay-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Excellence in Motion Text';
+  src: url('/fonts/ExcellenceInMotionText-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Excellence in Motion Text';
+  src: url('/fonts/ExcellenceInMotionText-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Excellence in Motion Text';
+  src: url('/fonts/ExcellenceInMotionText-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
+  /* Air France / Barfield Aviation Theme Colors */
   --background: 0 0% 100%;
-  --foreground: 0 0% 3.9%;
+  --foreground: 217 100% 17%; /* Oxford Blue #002157 */
   --card: 0 0% 100%;
-  --card-foreground: 0 0% 3.9%;
+  --card-foreground: 217 100% 17%;
   --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 3.9%;
-  --primary: 0 0% 9%;
+  --popover-foreground: 217 100% 17%;
+  --primary: 217 100% 17%; /* Oxford Blue #002157 */
   --primary-foreground: 0 0% 98%;
-  --secondary: 0 0% 96.1%;
-  --secondary-foreground: 0 0% 9%;
-  --muted: 0 0% 96.1%;
-  --muted-foreground: 0 0% 45.1%;
-  --accent: 0 0% 96.1%;
-  --accent-foreground: 0 0% 9%;
+  --secondary: 210 17% 82%; /* Light blue-gray for aviation feel */
+  --secondary-foreground: 217 100% 17%;
+  --muted: 210 17% 95%;
+  --muted-foreground: 217 20% 40%;
+  --accent: 356 96% 55%; /* Pigment Red #F71D25 */
+  --accent-foreground: 0 0% 98%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 98%;
-  --border: 0 0% 89.8%;
-  --input: 0 0% 89.8%;
-  --ring: 0 0% 3.9%;
+  --border: 217 20% 85%;
+  --input: 217 20% 85%;
+  --ring: 217 100% 17%;
   --radius: 0.5rem;
 }
 
@@ -39,40 +73,53 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-excellence-text);
+  --font-display: var(--font-excellence-display);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-  }
+.dark {
+  --background: 217 100% 8%; /* Dark Oxford Blue */
+  --foreground: 0 0% 98%;
+  --card: 217 100% 10%;
+  --card-foreground: 0 0% 98%;
+  --popover: 217 100% 10%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 210 50% 65%; /* Lighter blue for dark mode */
+  --primary-foreground: 217 100% 10%;
+  --secondary: 217 30% 20%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 217 30% 18%;
+  --muted-foreground: 210 15% 65%;
+  --accent: 356 96% 55%; /* Keep red accent */
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 217 30% 22%;
+  --input: 217 30% 22%;
+  --ring: 210 50% 65%;
 }
 
 body {
   background: hsl(var(--background));
   color: hsl(var(--foreground));
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Excellence in Motion Text', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 * {
   border-color: hsl(var(--border));
+}
+
+/* Utility classes for Air France fonts */
+.font-display {
+  font-family: 'Excellence in Motion Display', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.font-text {
+  font-family: 'Excellence in Motion Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Apply Display font to headings by default */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Excellence in Motion Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 700;
 }
