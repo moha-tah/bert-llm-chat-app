@@ -91,30 +91,9 @@ jobs:
           echo "Deploying image: $IMAGE_URI"
 
           # Update App Runner service
-          aws apprunner update-service \
+          aws apprunner start-deployment \
             --service-arn ${{ secrets.APP_RUNNER_SERVICE_ARN }} \
-            --source-configuration "{
-              \"ImageRepository\": {
-                \"ImageIdentifier\": \"$IMAGE_URI\",
-                \"ImageRepositoryType\": \"ECR\",
-                \"ImageConfiguration\": {
-                  \"Port\": \"8080\",
-                  \"RuntimeEnvironmentVariables\": {
-                    \"GROQ_MODEL\": \"llama-3.3-70b-versatile\",
-                    \"GROQ_TEMPERATURE\": \"0.7\",
-                    \"GROQ_MAX_TOKENS\": \"1024\",
-                    \"FAISS_INDEX_DIR\": \"/app/faiss_index\",
-                    \"EMBEDDING_MODEL\": \"sentence-transformers/all-MiniLM-L6-v2\",
-                    \"K_NEIGHBORS\": \"5\"
-                  },
-                  \"RuntimeEnvironmentSecrets\": {
-                    \"GROQ_API_KEY\": \"${{ secrets.GROQ_API_KEY }}\",
-                    \"ALLOWED_ORIGINS\": \"${{ secrets.ALLOWED_ORIGINS }}\"
-                  }
-                }
-              },
-              \"AutoDeploymentsEnabled\": false
-            }" \
+            --image-repository "ImageIdentifier=${IMAGE_URI},ImageRepositoryType=ECR" \
             --region ${{ env.AWS_REGION }}
 
           echo "Deployment initiated successfully"
