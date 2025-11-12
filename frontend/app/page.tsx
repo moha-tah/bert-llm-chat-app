@@ -1,10 +1,15 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Github, PlaneTakeoff } from "lucide-react";
+import { useTheme } from "next-themes";
 
 export default function Home() {
+  const { theme } = useTheme();
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-background via-background to-secondary/20">
       <div className="absolute top-4 right-4">
@@ -12,7 +17,11 @@ export default function Home() {
       </div>
       <main className="flex flex-col items-center justify-center gap-8 p-8 text-center max-w-4xl">
         <div className="flex flex-col items-center gap-6">
-          <div className="flex items-center gap-3 dark:bg-white rounded-md p-2">
+          <div
+            className={`flex items-center gap-3 rounded-md p-2 ${
+              theme === "dark" ? "bg-white" : ""
+            }`}
+          >
             <Image
               src="/images/barfield-logo.png"
               alt="Barfield Logo"
