@@ -8,12 +8,15 @@ logger = logging.getLogger(__name__)
 groq_client = Groq(api_key=settings.GROQ_API_KEY)
 
 
-def build_prompt(question: str, context_chunks: list[dict]) -> str:
+def build_prompt(
+    question: str, context_chunks: list[dict], history: list[dict] = None
+) -> str:
     """
-    Build prompt with retrieved context chunks
+    Build prompt with retrieved context chunks and conversation history
     Args:
         question: User question
         context_chunks: List of relevant document chunks
+        history: Conversation history (list of messages)
     Returns:
         Formatted prompt string
     """
@@ -26,23 +29,38 @@ def build_prompt(question: str, context_chunks: list[dict]) -> str:
         context_parts.append(
             f"[Part {i}] (Document: {source}, Relevance: {score:.3f})\n{text}"
         )
-
     context = "\n\n".join(context_parts)
 
+    # Build history string
+    history_text = ""
+    if history:
+        history_parts = []
+        for msg in history:
+            role = msg.get("role", "user")
+            content = msg.get("content", "")
+            history_parts.append(f"{role.capitalize()}: {content}")
+        history_text = "\n".join(history_parts)
+
+    logger.info(f"History: {history_text}")
+
     # Build full prompt
-    prompt = f"""You are an intelligent assistant that answers questions based on provided context from documents.
+    prompt = f"""You are an intelligent assistant, named "Barfield AI", that answers questions based on provided context from documents and conversation history.
 
 Context from relevant parts:
 {context}
 
+Conversation History:
+{history_text if history_text else 'None'}
+
 User Question: {question}
 
 Instructions:
-- Answer the question based ONLY on the information provided in the context above
-- If the context doesn't contain enough information to answer the question, say so clearly
-- If the question doesn't need any context, answer based on your knowledge
+- Answer the question based on the information provided in the context above or in the conversation history
+- If the question asks to repeat a previous answer, use the relevant part of the history
+- If the context or history don't contain enough information to answer the question, say so clearly
+- If the question doesn't need any context or history, answer based on your knowledge
 - Be concise and accurate
-- Cite which document(s) you're referencing in your answer (at the end after jumping to the next line)
+- Cite which document(s) you're referencing in your answer (at the end after jumping to the next line) if you reference any documents
 
 Answer:"""
 
@@ -69,7 +87,7 @@ async def stream_groq_response(
     """
     try:
         # Build prompt with context
-        prompt = build_prompt(question, context_chunks)
+        prompt = build_prompt(question, context_chunks, history)
 
         logger.info(f"Calling Groq API with model: {model}")
 
