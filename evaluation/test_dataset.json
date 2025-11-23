@@ -1,0 +1,164 @@
+[
+  {
+    "question_id": 1,
+    "question": "What BLEU scores did the Transformer achieve on English-to-German and English-to-French translation?",
+    "ground_truth": "The Transformer achieved 28.4 BLEU on English-to-German translation and 41.0 BLEU on English-to-French translation, with significantly less training time than previous models.",
+    "relevant_chunk_ids": [1],
+    "category": "ai_ml",
+    "difficulty": "easy",
+    "question_type": "factual"
+  },
+  {
+    "question_id": 2,
+    "question": "How does multi-head attention work in the Transformer architecture?",
+    "ground_truth": "Multi-head attention linearly projects queries, keys, and values multiple times with different learned projections. Attention is then performed in parallel on each projection, and the results are concatenated. This allows the model to jointly attend to information from different representation subspaces at different positions.",
+    "relevant_chunk_ids": [17],
+    "category": "ai_ml",
+    "difficulty": "medium",
+    "question_type": "conceptual"
+  },
+  {
+    "question_id": 3,
+    "question": "Why does the Transformer architecture need positional encoding?",
+    "ground_truth": "The Transformer needs positional encoding because it has no recurrence or convolution mechanisms. Without positional information, the model would have no way to understand the order of elements in a sequence. Positional encoding injects information about the relative or absolute position of tokens in the sequence.",
+    "relevant_chunk_ids": [23],
+    "category": "ai_ml",
+    "difficulty": "medium",
+    "question_type": "conceptual"
+  },
+  {
+    "question_id": 4,
+    "question": "What future research directions were mentioned for the Transformer model?",
+    "ground_truth": "Future research directions include extending the Transformer to handle large inputs such as images, audio, and video using restricted attention mechanisms to make computation tractable, and making generation less sequential to improve efficiency.",
+    "relevant_chunk_ids": [45],
+    "category": "ai_ml",
+    "difficulty": "easy",
+    "question_type": "factual"
+  },
+  {
+    "question_id": 5,
+    "question": "What is the Barfield TT1200A and what is it used for?",
+    "ground_truth": "The Barfield TT1200A is a microprocessor-based, battery-powered Digital Turbine Temperature Tester designed to test Chromel-Alumel (K-type) turbine temperature measuring systems in aircraft. It is used for testing aircraft thermocouple systems.",
+    "relevant_chunk_ids": [0],
+    "category": "aviation_equipment",
+    "difficulty": "easy",
+    "question_type": "factual"
+  },
+  {
+    "question_id": 6,
+    "question": "What are Air France's environmental goals regarding emissions?",
+    "ground_truth": "Air France aims to reduce emissions by 30% per passenger-kilometer by 2030 compared to 2019 levels. This is part of their sustainability and environmental responsibility initiatives.",
+    "relevant_chunk_ids": [5],
+    "category": "aviation_business",
+    "difficulty": "easy",
+    "question_type": "factual"
+  },
+  {
+    "question_id": 7,
+    "question": "Who is Sir George Cayley and why is he important in aviation history?",
+    "ground_truth": "Sir George Cayley is known as the 'Father of Aerial Navigation.' He discovered the basic principles of aeronautics, built the first successful flying model, and tested the first full-size man-carrying airplane. His contributions laid the foundation for modern aviation.",
+    "relevant_chunk_ids": [6],
+    "category": "aviation_history",
+    "difficulty": "easy",
+    "question_type": "factual"
+  },
+  {
+    "question_id": 8,
+    "question": "What was the Air Commerce Act of 1926 and what did it accomplish?",
+    "ground_truth": "The Air Commerce Act of 1926 charged the Secretary of Commerce with fostering air commerce, licensing pilots, certificating aircraft, establishing airways, and creating the Aeronautics Branch. This was a foundational piece of legislation for regulating aviation in the United States.",
+    "relevant_chunk_ids": [16],
+    "category": "aviation_history",
+    "difficulty": "medium",
+    "question_type": "conceptual"
+  },
+  {
+    "question_id": 9,
+    "question": "How did the FAA's security responsibilities change after 9/11?",
+    "ground_truth": "After the September 11, 2001 terrorist attacks, the FAA's security duties were transferred to the Department of Homeland Security (DHS). Prior to this, the FAA had been responsible for aviation security, including measures to address hijackings that increased in the 1960s.",
+    "relevant_chunk_ids": [26],
+    "category": "aviation_history",
+    "difficulty": "medium",
+    "question_type": "factual"
+  },
+  {
+    "question_id": 10,
+    "question": "What is the Code of Federal Regulations (CFR) and how does it relate to aviation?",
+    "ground_truth": "The Code of Federal Regulations (CFR) codifies general and permanent rules published by executive departments and agencies in the Federal Register. The FAA promotes aviation safety through the CFR, which is divided into 50 Titles representing broad regulatory areas. Aviation regulations are primarily found in Title 14.",
+    "relevant_chunk_ids": [36],
+    "category": "aviation_regulation",
+    "difficulty": "medium",
+    "question_type": "conceptual"
+  },
+  {
+    "question_id": 11,
+    "question": "What is Bernoulli's equation used for in aerodynamics?",
+    "ground_truth": "Bernoulli's equation is applied to calculate lift force in aerodynamics. The lift formula is L = CL½ρV²S, where CL is the lift coefficient, ρ is air density, V is velocity, and S is wing surface area. It's fundamental for understanding how aircraft generate lift.",
+    "relevant_chunk_ids": [3],
+    "category": "aerodynamics",
+    "difficulty": "medium",
+    "question_type": "conceptual"
+  },
+  {
+    "question_id": 12,
+    "question": "Why does minimum flight velocity increase with altitude?",
+    "ground_truth": "Minimum flight velocity increases with altitude due to decreased air density. As altitude increases, the air becomes thinner (lower density), requiring the aircraft to fly faster to generate the same amount of lift. This is why airspeed indicators use equivalent airspeed rather than true airspeed.",
+    "relevant_chunk_ids": [8],
+    "category": "aerodynamics",
+    "difficulty": "medium",
+    "question_type": "conceptual"
+  },
+  {
+    "question_id": 13,
+    "question": "What is the difference between theoretical ceiling and service ceiling for an aircraft?",
+    "ground_truth": "The theoretical ceiling is the altitude where the rate of climb equals zero - the absolute maximum height an aircraft can reach. The service ceiling is defined as the altitude where the maximum rate of climb is 0.5 m/s, which is a more practical operating limit. Aircraft cannot fly at infinite heights because they require sufficient air density to generate lift.",
+    "relevant_chunk_ids": [11],
+    "category": "aerodynamics",
+    "difficulty": "hard",
+    "question_type": "comparison"
+  },
+  {
+    "question_id": 14,
+    "question": "What causes buffeting in aircraft at high speeds?",
+    "ground_truth": "Buffeting at high Mach numbers is caused by shock waves that form when the aircraft approaches or exceeds the speed of sound. These shock waves create wave drag and turbulent airflow over the aircraft surfaces, causing vibrations and instability. This is why aircraft have maximum Mach number (MD) limitations regulated by aviation authorities.",
+    "relevant_chunk_ids": [13],
+    "category": "aerodynamics",
+    "difficulty": "hard",
+    "question_type": "conceptual"
+  },
+  {
+    "question_id": 15,
+    "question": "What is a flight envelope and what limits does it include?",
+    "ground_truth": "A flight envelope represents all the operational boundaries and limits of an aircraft. It includes maximum and minimum velocities, altitude limits (service and theoretical ceilings), maximum Mach number, maximum pressure difference for cabin pressurization, load factor limits, and other performance constraints. The flight envelope defines the safe operating range of the aircraft.",
+    "relevant_chunk_ids": [16],
+    "category": "aerodynamics",
+    "difficulty": "medium",
+    "question_type": "conceptual"
+  },
+  {
+    "question_id": 16,
+    "question": "Compare the training time of the Transformer model to previous translation models.",
+    "ground_truth": "The Transformer achieved state-of-the-art translation quality with significantly less training time compared to previous recurrent and convolutional models. This was one of its major advantages, demonstrating both better performance and greater training efficiency.",
+    "relevant_chunk_ids": [1],
+    "category": "ai_ml",
+    "difficulty": "medium",
+    "question_type": "comparison"
+  },
+  {
+    "question_id": 17,
+    "question": "What role did the Aeronautics Branch play in early aviation regulation?",
+    "ground_truth": "The Aeronautics Branch, created by the Air Commerce Act of 1926, was responsible for licensing pilots, certificating aircraft, establishing airways, and fostering air commerce. It was the precursor to the FAA and established the foundation for modern aviation regulation and safety oversight.",
+    "relevant_chunk_ids": [16],
+    "category": "aviation_history",
+    "difficulty": "medium",
+    "question_type": "conceptual"
+  },
+  {
+    "question_id": 18,
+    "question": "How does air density affect aircraft performance?",
+    "ground_truth": "Air density is critical to aircraft performance. As altitude increases and air density decreases, aircraft must fly faster to generate the same lift, increasing minimum flight velocity. Lower density also affects engine performance, maximum ceiling (aircraft cannot fly where density is too low to generate lift), and various aerodynamic forces. This is why aircraft use equivalent airspeed rather than true airspeed for flight operations.",
+    "relevant_chunk_ids": [8, 11],
+    "category": "aerodynamics",
+    "difficulty": "hard",
+    "question_type": "conceptual"
+  }
+]

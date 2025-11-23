@@ -13,7 +13,8 @@
 
 ## 🎯 Overview
 
-This project demonstrates a **cloud-native AI application** designed for enterprise-scale document Q&A. It combines a high-performance RAG (Retrieval-Augmented Generation) pipeline with modern DevOps practices, featuring:
+This project demonstrates a **cloud-native AI application** designed for document Q&A. It combines a high-performance RAG (Retrieval-Augmented Generation) pipeline with modern DevOps practices, featuring:
+
 - **Real-time AI**: LLaMA 3.3 70B via Groq (300+ tokens/sec) with SSE streaming.
 - **Efficient Retrieval**: FAISS vector search with `all-MiniLM-L6-v2` embeddings.
 - **Robust Ops**: Docker multi-stage builds, AWS App Runner auto-scaling, and Terraform IaC.
@@ -27,13 +28,14 @@ graph LR
     BE -->|1. Embed| Model[MiniLM-L6-v2]
     BE -->|2. Search| FAISS[Vector DB]
     BE -->|3. Generate| LLM[LLaMA 3.3 (Groq)]
-    
+
     subgraph AWS Cloud
     BE
     end
 ```
 
 ### RAG Pipeline Flow
+
 1. **Input**: User asks a question via the Next.js interface.
 2. **Embedding**: Query is converted to a 384-dim vector using `sentence-transformers/all-MiniLM-L6-v2`.
 3. **Retrieval**: FAISS performs a similarity search (inner product) to find the top-5 relevant document chunks.
@@ -42,23 +44,25 @@ graph LR
 
 ## 🛠️ Technology Stack
 
-| Component | Technology | Key Choice Rationale |
-|-----------|------------|----------------------|
-| **AI/ML** | LLaMA 3.3, FAISS, LangChain | Groq LPU for speed; FAISS for sub-ms retrieval. |
-| **Backend** | FastAPI, Python 3.11 | Async/await support; robust ML ecosystem. |
-| **Frontend** | Next.js 16, Tailwind, TypeScript | Server Components; modern React 19 features. |
-| **Infrastructure** | AWS App Runner, ECR, Secrets Manager | Fully managed; auto-scaling; secure secrets. |
-| **DevOps** | Docker, GitHub Actions, Terraform | Immutable artifacts; reproducible infrastructure. |
+| Component          | Technology                           | Key Choice Rationale                              |
+| ------------------ | ------------------------------------ | ------------------------------------------------- |
+| **AI/ML**          | LLaMA 3.3, FAISS, LangChain          | Groq LPU for speed; FAISS for sub-ms retrieval.   |
+| **Backend**        | FastAPI, Python 3.11                 | Async/await support; robust ML ecosystem.         |
+| **Frontend**       | Next.js 16, Tailwind, TypeScript     | Server Components; modern React 19 features.      |
+| **Infrastructure** | AWS App Runner, ECR, Secrets Manager | Fully managed; auto-scaling; secure secrets.      |
+| **DevOps**         | Docker, GitHub Actions, Terraform    | Immutable artifacts; reproducible infrastructure. |
 
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Docker & Docker Compose
 - [Groq API Key](https://console.groq.com)
 
 ### Local Development
 
 **1. Backend**
+
 ```bash
 cd backend
 # Create .env file
@@ -68,14 +72,18 @@ docker-compose up --build
 ```
 
 **2. Frontend**
+
 ```bash
 cd frontend
 pnpm install && pnpm dev
 ```
+
 Access the app at `http://localhost:3000`.
 
 ### Document Ingestion
+
 To add new PDFs to the knowledge base:
+
 ```bash
 cd scripts
 poetry install
@@ -86,6 +94,7 @@ poetry run python ingest.py
 ## ☁️ Deployment
 
 The project uses a GitOps workflow with **GitHub Actions**:
+
 1. **Push to Main**: Triggers CI/CD pipeline.
 2. **Build**: Creates optimized multi-stage Docker image.
 3. **Push**: Uploads image to AWS ECR with SHA tagging.
@@ -96,6 +105,7 @@ Infrastructure is provisioned via **Terraform** in the `/terraform` directory.
 ## 📊 Evaluation
 
 Includes a comprehensive evaluation framework (`/evaluation`) measuring:
+
 - **RAG Quality**: Context precision/recall (RAGAS).
 - **Retrieval**: Recall@K, MRR, NDCG.
 - **Latency**: End-to-end response times.
@@ -113,4 +123,5 @@ Includes a comprehensive evaluation framework (`/evaluation`) measuring:
 ```
 
 ---
+
 **License**: MIT
