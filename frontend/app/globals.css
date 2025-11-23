@@ -55,6 +55,10 @@
   --input: 217 20% 85%;
   --ring: 217 100% 17%;
   --radius: 0.5rem;
+
+  /* Specific Color Variables for Arbitrary Values */
+  --color-pigment-red: #F71D25;
+  --color-oxford-blue: #002157;
 }
 
 @theme inline {

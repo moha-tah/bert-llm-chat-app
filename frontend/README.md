@@ -11,17 +11,18 @@
 
 ## 🛠️ Tech Stack
 
-| Component | Technology |
-|-----------|------------|
-| **Framework** | Next.js 16 (App Router), React 19 |
-| **Language** | TypeScript (Strict) |
-| **Styling** | Tailwind CSS v4 |
-| **AI/ML** | Vercel AI SDK, OpenAI GPT-4o |
-| **Validation** | Zod |
+| Component      | Technology                        |
+| -------------- | --------------------------------- |
+| **Framework**  | Next.js 16 (App Router), React 19 |
+| **Language**   | TypeScript (Strict)               |
+| **Styling**    | Tailwind CSS v4                   |
+| **AI/ML**      | Vercel AI SDK, OpenAI GPT-4o      |
+| **Validation** | Zod                               |
 
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - OpenAI API Key
 - Backend API running on port 8080 (for RAG chat)
@@ -29,12 +30,14 @@
 ### Installation
 
 1. **Install dependencies**:
+
    ```bash
    pnpm install
    ```
 
 2. **Configure Environment**:
    Create `.env.local`:
+
    ```env
    NEXT_PUBLIC_API_URL=http://localhost:8080
    OPENAI_API_KEY=sk-your-key
@@ -49,12 +52,14 @@
 ## 🏗️ Architecture
 
 ### Support Widget Flow
+
 1. **User Interaction**: Floating widget collects issue details.
 2. **AI Processing**: `useSupportChat` sends history to `/api/support`.
 3. **Extraction**: GPT-4o extracts structured data (schema in `lib/intake-schema.ts`) and validates via Zod.
 4. **Routing**: AI routes to appropriate internal teams based on embedded knowledge base.
 
 ### Project Structure
+
 ```
 frontend/
 ├── app/
@@ -74,4 +79,5 @@ Standard Next.js deployment (Vercel recommended).
 Ensure `OPENAI_API_KEY` and `NEXT_PUBLIC_API_URL` are set in your deployment environment.
 
 ---
+
 **License**: Proprietary - Air France / Barfield

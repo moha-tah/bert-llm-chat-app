@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { SupportWidget } from "@/components/support-widget";
 
 export const metadata: Metadata = {
   title: "Ask Barfield AI",
@@ -23,7 +24,7 @@ export default function RootLayout({
             "'Excellence in Motion Text', -apple-system, BlinkMacSystemFont, sans-serif",
           "--font-excellence-display":
             "'Excellence in Motion Display', -apple-system, BlinkMacSystemFont, sans-serif",
-        } as React.CSSProperties
+        } as Record<string, string>
       }
     >
       <body className="antialiased">
@@ -34,6 +35,7 @@ export default function RootLayout({
           disableTransitionOnChange={false}
         >
           {children}
+          <SupportWidget />
         </ThemeProvider>
       </body>
     </html>
