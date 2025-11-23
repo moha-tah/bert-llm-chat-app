@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ask Barfield AI - Support Intake Widget
 
-## Getting Started
+> Intelligent document assistant and support intake system for Air France / Barfield.
 
-First, run the development server:
+## ⚡ Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **RAG Chat**: Interactive document retrieval with real-time streaming and source citations.
+- **Support Widget**: Global floating widget for structured support intake and smart team routing.
+- **AI Powered**: OpenAI GPT-4o integration with Vercel AI SDK.
+- **Modern UI**: Next.js 16, Tailwind CSS v4, and dark/light mode.
+
+## 🛠️ Tech Stack
+
+| Component | Technology |
+|-----------|------------|
+| **Framework** | Next.js 16 (App Router), React 19 |
+| **Language** | TypeScript (Strict) |
+| **Styling** | Tailwind CSS v4 |
+| **AI/ML** | Vercel AI SDK, OpenAI GPT-4o |
+| **Validation** | Zod |
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+
+- OpenAI API Key
+- Backend API running on port 8080 (for RAG chat)
+
+### Installation
+
+1. **Install dependencies**:
+   ```bash
+   pnpm install
+   ```
+
+2. **Configure Environment**:
+   Create `.env.local`:
+   ```env
+   NEXT_PUBLIC_API_URL=http://localhost:8080
+   OPENAI_API_KEY=sk-your-key
+   ```
+
+3. **Run Development Server**:
+   ```bash
+   pnpm dev
+   ```
+   Visit `http://localhost:3000`.
+
+## 🏗️ Architecture
+
+### Support Widget Flow
+1. **User Interaction**: Floating widget collects issue details.
+2. **AI Processing**: `useSupportChat` sends history to `/api/support`.
+3. **Extraction**: GPT-4o extracts structured data (schema in `lib/intake-schema.ts`) and validates via Zod.
+4. **Routing**: AI routes to appropriate internal teams based on embedded knowledge base.
+
+### Project Structure
+```
+frontend/
+├── app/
+│   ├── api/support/       # Streaming chat API
+│   ├── ask/               # Main RAG chat page
+│   └── layout.tsx         # Global layout with Widget
+├── components/
+│   ├── support-widget/    # Widget UI components
+│   └── chat/              # Shared chat UI
+├── hooks/                 # Custom hooks (useChat, useSupportChat)
+└── lib/                   # Schemas (Zod) and utils
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📦 Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Standard Next.js deployment (Vercel recommended).
+Ensure `OPENAI_API_KEY` and `NEXT_PUBLIC_API_URL` are set in your deployment environment.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+**License**: Proprietary - Air France / Barfield
