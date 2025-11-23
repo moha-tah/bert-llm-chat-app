@@ -27,7 +27,7 @@ graph LR
     FE -->|HTTP/SSE| BE[FastAPI Backend]
     BE -->|1. Embed| Model[MiniLM-L6-v2]
     BE -->|2. Search| FAISS[Vector DB]
-    BE -->|3. Generate| LLM[LLaMA 3.3 (Groq)]
+    BE -->|3. Generate| LLM[LLaMA 3.3]
 
     subgraph AWS Cloud
     BE
