@@ -89,13 +89,13 @@ export function SummaryCard({ data, onEdit, onSubmit }: SummaryCardProps) {
         {/* Missing Fields Warning */}
         {hasMissingFields && (
           <div className="border-t pt-3">
-            <div className="flex items-start gap-2 p-3 bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-900 rounded-md">
-              <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-500 mt-0.5" />
+            <div className="flex items-start gap-2 p-3 bg-accent border border-yellow-200 dark:border-yellow-900 rounded-md">
+              <AlertCircle className="h-5 w-5 text-accent-foreground mt-0.5" />
               <div className="flex-1">
-                <p className="text-sm font-medium text-yellow-900 dark:text-yellow-100">
+                <p className="text-sm font-medium text-primary-foreground">
                   Some information is missing
                 </p>
-                <p className="text-xs text-yellow-700 dark:text-yellow-300 mt-1">
+                <p className="text-xs text-primary-foreground mt-1">
                   {data.missing.join(", ")}
                 </p>
               </div>
@@ -155,7 +155,7 @@ function SummaryField({
       {badge ? (
         <span
           className={cn(
-            "px-2 py-0.5 rounded-full text-xs font-medium capitalize",
+            "px-2 py-0.5 rounded-full text-xs text-white font-medium capitalize",
             badgeColor
           )}
         >
@@ -174,13 +174,13 @@ function SummaryField({
 function getUrgencyColor(urgency: string | null | undefined): string {
   switch (urgency) {
     case "high":
-      return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-200";
+      return "bg-red-500";
     case "medium":
-      return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200";
+      return "bg-yellow-500";
     case "low":
-      return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200";
+      return "bg-green-500";
     default:
-      return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200";
+      return "bg-gray-500";
   }
 }
 
@@ -190,12 +190,12 @@ function getUrgencyColor(urgency: string | null | undefined): string {
 function getConfidenceColor(confidence: string | null | undefined): string {
   switch (confidence) {
     case "high":
-      return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200";
+      return "bg-green-500";
     case "medium":
-      return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200";
+      return "bg-blue-500";
     case "low":
-      return "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-200";
+      return "bg-orange-500";
     default:
-      return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200";
+      return "bg-gray-500";
   }
 }
