@@ -1,5 +1,5 @@
 import { openai } from "@ai-sdk/openai";
-import { streamText, convertToModelMessages } from "ai";
+import { streamText, convertToModelMessages, type LanguageModel } from "ai";
 import { IntakeSchema, type Intake } from "@/lib/intake-schema";
 import { SYSTEM_PROMPT, DOCUMENTS } from "@/lib/prompts";
 
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
 
     // Stream the response using Vercel AI SDK
     const result = streamText({
-      model: openai("gpt-4o"),
+      model: openai("gpt-4o") as unknown as LanguageModel,
       messages: conversationMessages,
       temperature: 0.7,
     });

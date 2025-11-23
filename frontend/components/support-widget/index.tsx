@@ -152,7 +152,7 @@ export function SupportWidget() {
                   variant="ghost"
                   size="icon"
                   onClick={handleClose}
-                  className="h-8 w-8 text-primary hover:bg-primary/20"
+                  className="h-8 w-8 text-primary hover:bg-accent"
                 >
                   <X className="h-4 w-4" />
                 </Button>
